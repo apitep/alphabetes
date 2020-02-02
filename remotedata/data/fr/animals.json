@@ -1,44 +1,42 @@
-{
-  "animals": [
-    {
-      "name": "éléphant",
-      "image_url": "https://raw.githubusercontent.com/EricNahon/alphabetes/master/remotedata/images/elephant.png",
-      "author": "https://pixabay.com/users/andremsantana"
-    },
-    {
-      "name": "giraffe",
-      "image_url": "https://raw.githubusercontent.com/EricNahon/alphabetes/master/remotedata/images/giraffe.png",
-      "author": "https://pixabay.com/users/Clker-Free-Vector-Images-3736"
-    },
-    {
-      "name": "rhinocéros",
-      "image_url": "https://raw.githubusercontent.com/EricNahon/alphabetes/master/remotedata/images/rhinoceros.png",
-      "author": "https://pixabay.com/users/GraphicMama-team-2641041"
-    },
-    {
-      "name": "vache",
-      "image_url": "https://raw.githubusercontent.com/EricNahon/alphabetes/master/remotedata/images/vache.png",
-      "author": "https://pixabay.com/users/Clker-Free-Vector-Images-3736"
-    },
-    {
-      "name": "mouton",
-      "image_url": "https://raw.githubusercontent.com/EricNahon/alphabetes/master/remotedata/images/mouton.png",
-      "author": "https://pixabay.com/users/creozavr-2567670"
-    },
-    {
-      "name": "canard",
-      "image_url": "https://raw.githubusercontent.com/EricNahon/alphabetes/master/remotedata/images/canard.png",
-      "author": "https://pixabay.com/users/creozavr-2567670"
-    },
-    {
-      "name": "autruche",
-      "image_url": "https://raw.githubusercontent.com/EricNahon/alphabetes/master/remotedata/images/autruche.png",
-      "author": "https://pixabay.com/users/Clker-Free-Vector-Images-3736"
-    },
-    {
-      "name": "hippopotame",
-      "image_url": "https://raw.githubusercontent.com/EricNahon/alphabetes/master/remotedata/images/hippopotame.png",
-      "author": "https://pixabay.com/users/Clker-Free-Vector-Images-3736"
-    }
-  ]
-}
+[
+  {
+    "name": "éléphant",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/elephant.png",
+    "author": "https://pixabay.com/users/andremsantana"
+  },
+  {
+    "name": "giraffe",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/giraffe.png",
+    "author": "https://pixabay.com/users/Clker-Free-Vector-Images-3736"
+  },
+  {
+    "name": "rhinocéros",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/rhinoceros.png",
+    "author": "https://pixabay.com/users/GraphicMama-team-2641041"
+  },
+  {
+    "name": "vache",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/vache.png",
+    "author": "https://pixabay.com/users/Clker-Free-Vector-Images-3736"
+  },
+  {
+    "name": "mouton",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/mouton.png",
+    "author": "https://pixabay.com/users/creozavr-2567670"
+  },
+  {
+    "name": "canard",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/canard.png",
+    "author": "https://pixabay.com/users/creozavr-2567670"
+  },
+  {
+    "name": "autruche",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/autruche.png",
+    "author": "https://pixabay.com/users/Clker-Free-Vector-Images-3736"
+  },
+  {
+    "name": "hippopotame",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/hippopotame.png",
+    "author": "https://pixabay.com/users/Clker-Free-Vector-Images-3736"
+  }
+]

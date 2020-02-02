@@ -48,7 +48,8 @@ class ChooserPainter extends CustomPainter {
     double centerX = size.width / 2;
     double centerY = size.height * 1.6;
     Offset center = Offset(centerX, centerY);
-    double radius = sqrt((size.width * size.width) / 2);
+    //double radius = sqrt((size.width * size.width) / 2);
+    double radius = sqrt((size.width * (size.width / 2)) / 2);
 
     //for white arc at bottom
     double leftX = centerX - radius;
@@ -84,8 +85,8 @@ class ChooserPainter extends CustomPainter {
       //draw text
       TextSpan span = TextSpan(
           style: TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 32.0,
+              fontWeight: FontWeight.bold,
+              fontSize: 22.0,
               fontFamily: 'Montserrat',
               fontStyle: FontStyle.normal,
               color: Colors.white),
@@ -99,41 +100,30 @@ class ChooserPainter extends CustomPainter {
 
       //center text
       double f = tp.width / 2;
+
+      if (arcItems[i].text.contains('\n')) {
+        radiusText = radius * 1.40;
+      } else {
+        radiusText = radius * 1.35;
+      }
+
       double t = sqrt((radiusText * radiusText) + (f * f));
 
-      double additionalAngle = acos(
-          ((t * t) + (radiusText * radiusText) - (f * f)) /
-              (2 * t * radiusText));
+      double additionalAngle = acos(((t * t) + (radiusText * radiusText) - (f * f)) / (2 * t * radiusText));
 
-      double tX = center.dx +
-          radiusText *
-              cos(arcItems[i].startAngle +
-                  angleInRadiansByTwo -
-                  additionalAngle);
-      double tY = center.dy +
-          radiusText *
-              sin(arcItems[i].startAngle +
-                  angleInRadiansByTwo -
-                  additionalAngle);
+      double tX = center.dx + radiusText * cos(arcItems[i].startAngle + angleInRadiansByTwo - additionalAngle);
+      double tY = center.dy + radiusText * sin(arcItems[i].startAngle + angleInRadiansByTwo - additionalAngle);
 
       canvas.save();
       canvas.translate(tX, tY);
-      canvas.rotate(arcItems[i].startAngle +
-          angleInRadians +
-          angleInRadians +
-          angleInRadiansByTwo);
+      canvas.rotate(arcItems[i].startAngle + angleInRadians + angleInRadians + angleInRadiansByTwo);
       tp.paint(canvas, Offset(0.0, 0.0));
       canvas.restore();
     }
 
     //bottom white arc
-    canvas.drawArc(
-        Rect.fromLTRB(leftX, topY, rightX, bottomY),
-        ChooserState.degreeToRadians(180.0),
-        ChooserState.degreeToRadians(180.0),
-        true,
-        whitePaint);
-
+    canvas.drawArc(Rect.fromLTRB(leftX, topY, rightX, bottomY), ChooserState.degreeToRadians(180.0),
+        ChooserState.degreeToRadians(180.0), true, whitePaint);
   }
 
   @override

@@ -6,13 +6,13 @@ class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
 
   final String title;
+  static const routeName = '/home';
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-
   int slideValue = 0;
   int lastAnimPosition = 0;
   int answer = 0;
@@ -28,12 +28,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.initState();
 
     currentCorrect = 0;
-    currentCandidates = ["réponse1", "réponse2", "reponse3", "reponse4", "réponse5", "réponse6", "reponse7", "reponse8"];
+    currentCandidates = [
+      "1-réponse1\nxxxxgggg",
+      "2-1234567890\n12345678901",
+      "reponse3",
+      "reponse4",
+      "réponse5",
+      "réponse6",
+      "reponse7",
+      "reponse8"
+    ];
 
     startColor = Color(0xFF21e1fa);
     endColor = Color(0xff3bb8fd);
 
-    animation = new AnimationController(
+    animation = AnimationController(
       value: 0.0,
       lowerBound: 0.0,
       upperBound: 400.0,
@@ -48,11 +57,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     animation.animateTo(slideValue.toDouble());
   }
 
-  ArcItem _selectedItem;
-  int _animPosition;
-  _arcItemSelected(int pos, ArcItem item) {
-    if (item == null) { return; }
-    print(item.text);
+  int _animPosition = 0;
+
+  itemSelected(int pos) {
+    print(pos);
     _animPosition = pos;
     animation.animateTo(_animPosition * 100.0);
 
@@ -74,15 +82,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(
-
+            Expanded(
+              child: Container(),
             ),
             Container(
               color: Colors.transparent,
               width: size.width,
               child: ArcChooser(
                 arcNames: currentCandidates,
-                arcSelectedCallback: _arcItemSelected(_animPosition, _selectedItem),
+                arcSelectedCallback: itemSelected(_animPosition),
               ),
             ),
           ],

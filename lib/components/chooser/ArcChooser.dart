@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'ChooserPainter.dart';
 
-typedef void ArcSelectedCallback(int position, ArcItem arcitem);
-
 class ArcItem {
   String text;
   List<Color> colors;
@@ -16,13 +14,9 @@ class ArcItem {
 }
 
 class ArcChooser extends StatefulWidget {
-  final ArcSelectedCallback arcSelectedCallback;
+  final Function arcSelectedCallback;
   final List<String> arcNames;
-  ArcChooser({
-    Key key,
-    this.arcNames,
-    this.arcSelectedCallback
-  }) : super(key: key);
+  ArcChooser({Key key, this.arcNames, this.arcSelectedCallback}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return ChooserState(arcSelectedCallback, this.arcNames);
@@ -56,7 +50,7 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
   Offset startingPoint;
   Offset endingPoint;
 
-  ArcSelectedCallback arcSelectedCallback;
+  Function arcSelectedCallback;
 
   ChooserState(this.arcSelectedCallback, this.arcNames);
 
@@ -74,16 +68,24 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
     arcItems = List<ArcItem>();
 
     arcItems.add(ArcItem(arcNames[0], [Color(0xFFF9D976), Color(0xfff39f86)], angleInRadiansByTwo + userAngle));
-    arcItems.add(ArcItem(arcNames[1], [Color(0xFF21e1fa), Color(0xff3bb8fd)], angleInRadiansByTwo + userAngle + (angleInRadians)));
-    arcItems.add(ArcItem(arcNames[2], [Color(0xFF3ee98a), Color(0xFF41f7c7)], angleInRadiansByTwo + userAngle + (2 * angleInRadians)));
-    arcItems.add(ArcItem(arcNames[3], [Color(0xFFfe0944), Color(0xFFfeae96)], angleInRadiansByTwo + userAngle + (3 * angleInRadians)));
-    arcItems.add(ArcItem(arcNames[4], [Color(0xFFF9D976), Color(0xfff39f86)], angleInRadiansByTwo + userAngle + (4 * angleInRadians)));
-    arcItems.add(ArcItem(arcNames[5], [Color(0xFF21e1fa), Color(0xff3bb8fd)], angleInRadiansByTwo + userAngle + (5 * angleInRadians)));
-    arcItems.add(ArcItem(arcNames[6], [Color(0xFF3ee98a), Color(0xFF41f7c7)], angleInRadiansByTwo + userAngle + (6 * angleInRadians)));
-    arcItems.add(ArcItem(arcNames[7], [Color(0xFFfe0944), Color(0xFFfeae96)], angleInRadiansByTwo + userAngle + (7 * angleInRadians)));
+    arcItems.add(ArcItem(
+        arcNames[1], [Color(0xFF21e1fa), Color(0xff3bb8fd)], angleInRadiansByTwo + userAngle + (angleInRadians)));
+    arcItems.add(ArcItem(
+        arcNames[2], [Color(0xFF3ee98a), Color(0xFF41f7c7)], angleInRadiansByTwo + userAngle + (2 * angleInRadians)));
+    arcItems.add(ArcItem(
+        arcNames[3], [Color(0xFFfe0944), Color(0xFFfeae96)], angleInRadiansByTwo + userAngle + (3 * angleInRadians)));
+    arcItems.add(ArcItem(
+        arcNames[4], [Color(0xFFF9D976), Color(0xfff39f86)], angleInRadiansByTwo + userAngle + (4 * angleInRadians)));
+    arcItems.add(ArcItem(
+        arcNames[5], [Color(0xFF21e1fa), Color(0xff3bb8fd)], angleInRadiansByTwo + userAngle + (5 * angleInRadians)));
+    arcItems.add(ArcItem(
+        arcNames[6], [Color(0xFF3ee98a), Color(0xFF41f7c7)], angleInRadiansByTwo + userAngle + (6 * angleInRadians)));
+    arcItems.add(ArcItem(
+        arcNames[7], [Color(0xFFfe0944), Color(0xFFfeae96)], angleInRadiansByTwo + userAngle + (7 * angleInRadians)));
 
     animation = new AnimationController(
-      duration: const Duration(milliseconds: 200), vsync: this,
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
     );
 
     animation.addListener(() {
@@ -103,11 +105,14 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
     double centerY = MediaQuery.of(context).size.height * 1.5;
     centerPoint = Offset(centerX, centerY);
 
-    return new GestureDetector(
+    print(MediaQuery.of(context).size.width);
+    return GestureDetector(
       onTap: () {
-        arcSelectedCallback(
-          currentPosition,
-          arcItems[currentPosition]);
+        print(currentPosition);
+        if (arcSelectedCallback == null) {
+          return;
+        }
+        arcSelectedCallback(currentPosition);
       },
       onPanStart: (DragStartDetails details) {
         startingPoint = details.globalPosition;
@@ -115,7 +120,6 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
         var deltaY = centerPoint.dy - details.globalPosition.dy;
         startAngle = atan2(deltaY, deltaX);
       },
-
       onPanUpdate: (DragUpdateDetails details) {
         endingPoint = details.globalPosition;
         var deltaX = centerPoint.dx - details.globalPosition.dx;
@@ -124,13 +128,11 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
         userAngle += freshAngle - startAngle;
         setState(() {
           for (int i = 0; i < arcItems.length; i++) {
-            arcItems[i].startAngle =
-                angleInRadiansByTwo + userAngle + (i * angleInRadians);
+            arcItems[i].startAngle = angleInRadiansByTwo + userAngle + (i * angleInRadians);
           }
         });
         startAngle = freshAngle;
       },
-
       onPanEnd: (DragEndDetails details) {
         bool rightToLeft = startingPoint.dx < endingPoint.dx;
 
@@ -150,16 +152,13 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
         }
 
         if (arcSelectedCallback != null) {
-          arcSelectedCallback(
-              currentPosition,
-              arcItems[currentPosition]);
+          arcSelectedCallback(currentPosition);
         }
 
         animation.forward(from: 0.0);
       },
       child: CustomPaint(
-        size: Size(MediaQuery.of(context).size.width,
-            MediaQuery.of(context).size.width * 1 / 1.5),
+        size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width * 1 / 1.5),
         painter: ChooserPainter(arcItems, angleInRadians),
       ),
     );
