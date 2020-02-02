@@ -105,7 +105,6 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
     double centerY = MediaQuery.of(context).size.height * 1.5;
     centerPoint = Offset(centerX, centerY);
 
-    print(MediaQuery.of(context).size.width);
     return GestureDetector(
       onTap: () {
         print(currentPosition);

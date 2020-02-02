@@ -43,7 +43,7 @@ class AppState with ChangeNotifier {
 
     _response = await http.get(url);
     if (_response.statusCode == 200) {
-      jsondata = jsonDecode(_response.body);
+      jsondata = _response.body;
     }
 
     return parseAnimals(jsondata);

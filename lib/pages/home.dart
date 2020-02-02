@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../models/app_state.dart';
+import '../models/animal.dart';
+import '../models/quizz_animals.dart';
 import '../components/chooser/ArcChooser.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,11 +21,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int lastAnimPosition = 0;
   int answer = 0;
 
+  List<Animal> animals = [];
   int currentCorrect;
   List<String> currentCandidates;
   Color startColor;
   Color endColor;
   AnimationController animation;
+  QuizzAnimals currentQuestion;
 
   @override
   void initState() {
@@ -60,18 +66,35 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _animPosition = 0;
 
   itemSelected(int pos) {
-    print(pos);
+    if (currentQuestion.candidates[pos].name == currentQuestion.goodAnswer.name) {
+      print("good answer");
+    } else {
+      print("wrong answer");
+    }
+
     _animPosition = pos;
     animation.animateTo(_animPosition * 100.0);
 
     lastAnimPosition = _animPosition;
+
+    chooseNewQuestion();
+
     setState(() {
       answer = lastAnimPosition;
     });
   }
 
+  void chooseNewQuestion() {
+    Animal randomAnimal = (animals..shuffle()).first;
+    animals.removeAt(0);
+    currentQuestion = QuizzAnimals(randomAnimal, animals);
+  }
+
   @override
   Widget build(BuildContext context) {
+    AppState appState = Provider.of<AppState>(context);
+    animals = appState.animals;
+
     var size = MediaQuery.of(context).size;
 
     return Scaffold(

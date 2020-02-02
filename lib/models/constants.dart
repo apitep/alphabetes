@@ -5,7 +5,7 @@ final Color kColorLightGray = Color(0xFFececec);
 
 const String kTitle = "Alphabêtes";
 
-const String kUrlRemoteData = "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/";
+const String kUrlRemoteData = "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/data/";
 const String kUrlImages = "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/";
 const String kDefaultUrlReward = "https://raw.githubusercontent.com/EricNahon/pikatchuTesOu/master/remotedata/images/Bulbasaur.gif";
 

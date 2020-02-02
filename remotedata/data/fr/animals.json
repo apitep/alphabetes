@@ -1,7 +1,7 @@
 [
   {
-    "name": "éléphant",
-    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/elephant.png",
+    "name": "éléphant marron",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/elephant-marron.png",
     "author": "https://pixabay.com/users/andremsantana"
   },
   {
@@ -38,5 +38,15 @@
     "name": "hippopotame",
     "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/hippopotame.png",
     "author": "https://pixabay.com/users/Clker-Free-Vector-Images-3736"
+  },
+  {
+    "name": "éléphant bleu",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/elephant-bleu.png",
+    "author": "https://pixabay.com/fr/users/creozavr-2567670"
+  },
+  {
+    "name": "stégosaure",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/stegosaurus.png",
+    "author": "https://pixabay.com/fr/users/Clker-Free-Vector-Images-3736"
   }
 ]
