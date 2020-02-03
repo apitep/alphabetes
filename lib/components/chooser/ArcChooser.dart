@@ -19,7 +19,7 @@ class ArcChooser extends StatefulWidget {
   ArcChooser({Key key, this.arcNames, this.arcSelectedCallback}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return ChooserState(arcSelectedCallback, this.arcNames);
+    return ChooserState();
   }
 }
 
@@ -38,8 +38,7 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
   static double angleInRadiansByTwo = angleInRadians / 2;
   static double centerItemAngle = degreeToRadians(center - (angle / 2));
 
-  List<ArcItem> arcItems;
-  List<String> arcNames;
+  List<ArcItem> arcItems = List<ArcItem>();
 
   AnimationController animation;
   double animationStart;
@@ -52,8 +51,6 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
 
   Function arcSelectedCallback;
 
-  ChooserState(this.arcSelectedCallback, this.arcNames);
-
   static double degreeToRadians(double degree) {
     return degree * (pi / 180);
   }
@@ -64,29 +61,7 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
 
   @override
   void initState() {
-    arcNames = widget.arcNames;
-    arcItems = List<ArcItem>();
     arcSelectedCallback = widget.arcSelectedCallback;
-
-    if (arcNames == null && arcNames.length < 8) {
-      return;
-    }
-
-    arcItems.add(ArcItem(arcNames[0], [Color(0xFFF9D976), Color(0xfff39f86)], angleInRadiansByTwo + userAngle));
-    arcItems.add(ArcItem(
-        arcNames[1], [Color(0xFF21e1fa), Color(0xff3bb8fd)], angleInRadiansByTwo + userAngle + (angleInRadians)));
-    arcItems.add(ArcItem(
-        arcNames[2], [Color(0xFF3ee98a), Color(0xFF41f7c7)], angleInRadiansByTwo + userAngle + (2 * angleInRadians)));
-    arcItems.add(ArcItem(
-        arcNames[3], [Color(0xFFfe0944), Color(0xFFfeae96)], angleInRadiansByTwo + userAngle + (3 * angleInRadians)));
-    arcItems.add(ArcItem(
-        arcNames[4], [Color(0xFFF9D976), Color(0xfff39f86)], angleInRadiansByTwo + userAngle + (4 * angleInRadians)));
-    arcItems.add(ArcItem(
-        arcNames[5], [Color(0xFF21e1fa), Color(0xff3bb8fd)], angleInRadiansByTwo + userAngle + (5 * angleInRadians)));
-    arcItems.add(ArcItem(
-        arcNames[6], [Color(0xFF3ee98a), Color(0xFF41f7c7)], angleInRadiansByTwo + userAngle + (6 * angleInRadians)));
-    arcItems.add(ArcItem(
-        arcNames[7], [Color(0xFFfe0944), Color(0xFFfeae96)], angleInRadiansByTwo + userAngle + (7 * angleInRadians)));
 
     animation = new AnimationController(
       duration: const Duration(milliseconds: 200),
@@ -104,11 +79,35 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
     super.initState();
   }
 
+  void buildArcItems(List<String> arcNames) {
+    arcItems = List<ArcItem>();
+    
+    if (arcNames == null && arcNames.length < 8) {
+      return;
+    }
+    arcItems.add(ArcItem(arcNames[0], [Color(0xFFF9D976), Color(0xfff39f86)], angleInRadiansByTwo + userAngle));
+    arcItems.add(ArcItem(
+        arcNames[1], [Color(0xFF21e1fa), Color(0xff3bb8fd)], angleInRadiansByTwo + userAngle + (angleInRadians)));
+    arcItems.add(ArcItem(
+        arcNames[2], [Color(0xFF3ee98a), Color(0xFF41f7c7)], angleInRadiansByTwo + userAngle + (2 * angleInRadians)));
+    arcItems.add(ArcItem(
+        arcNames[3], [Color(0xFFfe0944), Color(0xFFfeae96)], angleInRadiansByTwo + userAngle + (3 * angleInRadians)));
+    arcItems.add(ArcItem(
+        arcNames[4], [Color(0xFFF9D976), Color(0xfff39f86)], angleInRadiansByTwo + userAngle + (4 * angleInRadians)));
+    arcItems.add(ArcItem(
+        arcNames[5], [Color(0xFF21e1fa), Color(0xff3bb8fd)], angleInRadiansByTwo + userAngle + (5 * angleInRadians)));
+    arcItems.add(ArcItem(
+        arcNames[6], [Color(0xFF3ee98a), Color(0xFF41f7c7)], angleInRadiansByTwo + userAngle + (6 * angleInRadians)));
+    arcItems.add(ArcItem(
+        arcNames[7], [Color(0xFFfe0944), Color(0xFFfeae96)], angleInRadiansByTwo + userAngle + (7 * angleInRadians)));
+  }
+
   @override
   Widget build(BuildContext context) {
     double centerX = MediaQuery.of(context).size.width / 2;
     double centerY = MediaQuery.of(context).size.height * 1.5;
     centerPoint = Offset(centerX, centerY);
+    buildArcItems(widget.arcNames);
 
     return GestureDetector(
       onTap: () {
@@ -155,9 +154,9 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
           }
         }
 
-        if (arcSelectedCallback != null) {
-          arcSelectedCallback(currentPosition);
-        }
+        // if (arcSelectedCallback != null) {
+        //   arcSelectedCallback(currentPosition);
+        // }
 
         animation.forward(from: 0.0);
       },

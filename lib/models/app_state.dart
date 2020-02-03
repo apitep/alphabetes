@@ -6,6 +6,7 @@ import 'dart:convert';
 
 import 'constants.dart';
 import 'animal.dart';
+import 'quizz_animals.dart';
 
 class AppState with ChangeNotifier {
   AppState() {
@@ -15,10 +16,16 @@ class AppState with ChangeNotifier {
 
   PackageInfo packageInfo;
   String appVersion;
+  int currentBottomTabIndex = 0;
 
   List<Animal> animals = List<Animal>();
 
-  int currentBottomTabIndex = 0;
+  QuizzAnimals _currentQuestion;
+  QuizzAnimals get currentQuestion => _currentQuestion;
+  set currentQuestion(QuizzAnimals newValue) {
+    _currentQuestion = newValue;
+    notifyListeners();
+  }
 
   bool _isFetching = true;
   bool get isFetching => _isFetching;
@@ -28,11 +35,18 @@ class AppState with ChangeNotifier {
   }
 
   //
+  void chooseQuestion() {
+    if (animals != null && animals.length > 7) {
+      Animal randomAnimal = (animals..shuffle()).first;
+      //var selectedAnimals = animals.toList().removeAt(0);
+      currentQuestion = QuizzAnimals(randomAnimal, animals);
+    }
+  }
+
+  //
   Future<void> fetchData() async {
     isFetching = true;
-
     animals = await getAnimalsList('fr', 'animals');
-
     isFetching = false;
   }
 

@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           title: 'Alphabêtes',
         ),
         routes: {
-          HomePage.routeName: (context) => HomePage(),
+          HomePage.routeName: (context) => HomePage(title: 'Alphabêtes'),
         },
       ),
     );

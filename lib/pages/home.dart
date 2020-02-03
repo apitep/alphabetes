@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/app_state.dart';
-import '../models/animal.dart';
-import '../models/quizz_animals.dart';
 import '../components/chooser/ArcChooser.dart';
+import '../pages/transition_route_observer.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -16,34 +15,26 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin, TransitionRouteAware {
+  final routeObserver = TransitionRouteObserver<PageRoute>();
+
   int slideValue = 0;
   int lastAnimPosition = 0;
   int answer = 0;
 
-  List<Animal> animals = [];
+  AppState appState;
+  List<String> candidates = ['', '', '', '', '', '', '', ''];
   int currentCorrect;
-  List<String> currentCandidates;
+
   Color startColor;
   Color endColor;
   AnimationController animation;
-  QuizzAnimals currentQuestion;
 
   @override
   void initState() {
     super.initState();
 
     currentCorrect = 0;
-    currentCandidates = [
-      "1-réponse1\nxxxxgggg",
-      "2-1234567890\n12345678901",
-      "reponse3",
-      "reponse4",
-      "réponse5",
-      "réponse6",
-      "reponse7",
-      "reponse8"
-    ];
 
     startColor = Color(0xFF21e1fa);
     endColor = Color(0xff3bb8fd);
@@ -65,8 +56,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   int _animPosition = 0;
 
-  itemSelected(int pos) {
-    if (currentQuestion != null && currentQuestion.candidates[pos].name == currentQuestion.goodAnswer.name) {
+  checkAnswer(int pos) {
+    if (appState == null) {
+      return;
+    }
+
+    if (appState.currentQuestion != null &&
+        appState.currentQuestion.candidates[pos].name == appState.currentQuestion.goodAnswer.name) {
       print("good answer");
     } else {
       print("wrong answer");
@@ -76,30 +72,34 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     animation.animateTo(_animPosition * 100.0);
 
     lastAnimPosition = _animPosition;
+    appState.chooseQuestion();
 
-    chooseNewQuestion();
-
-    setState(() {
-      answer = lastAnimPosition;
-    });
+    candidates = appState.currentQuestion.chooserCandidates;
+    answer = lastAnimPosition;
+    
+    setState(() {});
   }
 
-  void chooseNewQuestion() {
-    if (animals != null && animals.length > 7) {
-      Animal randomAnimal = (animals..shuffle()).first;
-      animals.removeAt(0);
-      currentQuestion = QuizzAnimals(randomAnimal, animals);
-      setState(() {
-        currentCandidates = currentQuestion.chooserCandidates();
-      });
-    }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    routeObserver.unsubscribe(this);
+  }
+
+  @override
+  void didPushAfterTransition() {
+    appState.chooseQuestion();
   }
 
   @override
   Widget build(BuildContext context) {
-    AppState appState = Provider.of<AppState>(context);
-    animals = appState.animals;
-    chooseNewQuestion();
+    appState = Provider.of<AppState>(context);
 
     var size = MediaQuery.of(context).size;
 
@@ -113,18 +113,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           children: <Widget>[
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Container(
-                  child: currentQuestion == null ? null : Image.network(currentQuestion.goodAnswer.imageUrl),
-                ),
+                    child: appState.currentQuestion == null
+                        ? CircularProgressIndicator()
+                        : FadeInImage.assetNetwork(
+                            placeholder: 'assets/images/throbber.gif',
+                            image: appState.currentQuestion.goodAnswer.imageUrl,
+                          )),
               ),
             ),
             Container(
               color: Colors.transparent,
               width: size.width,
               child: ArcChooser(
-                arcNames: currentCandidates,
-                arcSelectedCallback: itemSelected,
+                arcNames: candidates,
+                arcSelectedCallback: checkAnswer,
               ),
             ),
           ],
