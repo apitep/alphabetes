@@ -64,8 +64,13 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
 
   @override
   void initState() {
-    arcNames = this.arcNames;
+    arcNames = widget.arcNames;
     arcItems = List<ArcItem>();
+    arcSelectedCallback = widget.arcSelectedCallback;
+
+    if (arcNames == null && arcNames.length < 8) {
+      return;
+    }
 
     arcItems.add(ArcItem(arcNames[0], [Color(0xFFF9D976), Color(0xfff39f86)], angleInRadiansByTwo + userAngle));
     arcItems.add(ArcItem(
@@ -108,10 +113,10 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
     return GestureDetector(
       onTap: () {
         print(currentPosition);
-        if (arcSelectedCallback == null) {
+        if (widget.arcSelectedCallback == null) {
           return;
         }
-        arcSelectedCallback(currentPosition);
+        widget.arcSelectedCallback(currentPosition);
       },
       onPanStart: (DragStartDetails details) {
         startingPoint = details.globalPosition;

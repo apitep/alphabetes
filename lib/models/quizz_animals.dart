@@ -12,4 +12,8 @@ class QuizzAnimals {
 
   Animal goodAnswer;
   List<Animal> candidates;
+  List<String> chooserCandidates() {
+    List<String> chooserCandidates = candidates.map((candidate) => (candidate.name)).toList();
+    return chooserCandidates;
+  }
 }

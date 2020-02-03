@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _animPosition = 0;
 
   itemSelected(int pos) {
-    if (currentQuestion.candidates[pos].name == currentQuestion.goodAnswer.name) {
+    if (currentQuestion != null && currentQuestion.candidates[pos].name == currentQuestion.goodAnswer.name) {
       print("good answer");
     } else {
       print("wrong answer");
@@ -85,15 +85,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   void chooseNewQuestion() {
-    Animal randomAnimal = (animals..shuffle()).first;
-    animals.removeAt(0);
-    currentQuestion = QuizzAnimals(randomAnimal, animals);
+    if (animals != null && animals.length > 7) {
+      Animal randomAnimal = (animals..shuffle()).first;
+      animals.removeAt(0);
+      currentQuestion = QuizzAnimals(randomAnimal, animals);
+      setState(() {
+        currentCandidates = currentQuestion.chooserCandidates();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     AppState appState = Provider.of<AppState>(context);
     animals = appState.animals;
+    chooseNewQuestion();
 
     var size = MediaQuery.of(context).size;
 
@@ -106,14 +112,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Expanded(
-              child: Container(),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: currentQuestion == null ? null : Image.network(currentQuestion.goodAnswer.imageUrl),
+                ),
+              ),
             ),
             Container(
               color: Colors.transparent,
               width: size.width,
               child: ArcChooser(
                 arcNames: currentCandidates,
-                arcSelectedCallback: itemSelected(_animPosition),
+                arcSelectedCallback: itemSelected,
               ),
             ),
           ],
