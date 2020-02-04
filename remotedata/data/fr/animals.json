@@ -60,8 +60,13 @@
     "author": ""
   },
   {
-    "name": "un chien allongé\nécoute la musique",
+    "name": "un chien sur\nle canapé",
     "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14693-music-lying-dog.json",
+    "author": ""
+  },
+  {
+    "name": "un hérisson",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/8439-hedgehog-listening-music.json",
     "author": ""
   }
 ]
