@@ -2,6 +2,7 @@ import 'package:alphabetes/models/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
+import 'package:lottie/lottie.dart';
 
 import '../providers/quizz_provider.dart';
 import '../components/chooser/ArcChooser.dart';
@@ -105,7 +106,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   void didPushAfterTransition() {
-    quizzProvider.currentQuestion = quizzProvider.chooseQuestion();
+    //quizzProvider.currentQuestion = quizzProvider.chooseQuestion();
   }
 
   @override
@@ -128,11 +129,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 : Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Container(
-                          child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/images/throbber.gif',
-                        image: quizzProvider.currentQuestion.goodAnswer.imageUrl,
-                      )),
+                      child: Container(child: Lottie.network(quizzProvider.currentQuestion.goodAnswer.imageUrl)),
                     ),
                   ),
             Container(

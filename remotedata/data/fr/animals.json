@@ -1,52 +1,52 @@
 [
   {
-    "name": "éléphant\nmarron",
-    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/elephant-marron.png",
-    "author": "https://pixabay.com/users/andremsantana"
+    "name": "dinosaure\nqui danse",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/2469-dino-dance.json",
+    "author": ""
   },
   {
-    "name": "giraffe",
-    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/giraffe.png",
-    "author": "https://pixabay.com/users/Clker-Free-Vector-Images-3736"
+    "name": "chien",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/4888-dog-whitebg-icon.json",
+    "author": ""
   },
   {
-    "name": "rhinocéros",
-    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/rhinoceros.png",
-    "author": "https://pixabay.com/users/GraphicMama-team-2641041"
+    "name": "singe\nqui danse",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/6863-monkey-tenor.json",
+    "author": ""
   },
   {
-    "name": "vache",
-    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/vache.png",
-    "author": "https://pixabay.com/users/Clker-Free-Vector-Images-3736"
+    "name": "mouton\nqui danse",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/8237-swimming-sheep.json",
+    "author": ""
   },
   {
-    "name": "mouton",
-    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/mouton.png",
-    "author": "https://pixabay.com/users/creozavr-2567670"
+    "name": "mouton\nsous la pluie",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/8840-sheep-in-the-middle-of-rain.json",
+    "author": ""
   },
   {
-    "name": "canard",
-    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/canard.png",
-    "author": "https://pixabay.com/users/creozavr-2567670"
+    "name": "renard",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/9477-fox.json",
+    "author": ""
   },
   {
-    "name": "autruche",
-    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/autruche.png",
-    "author": "https://pixabay.com/users/Clker-Free-Vector-Images-3736"
+    "name": "fourmi\nqui coure",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/9801-running-ant.json",
+    "author": ""
   },
   {
-    "name": "hippopotame",
-    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/hippopotame.png",
-    "author": "https://pixabay.com/users/Clker-Free-Vector-Images-3736"
+    "name": "souris\nqui fait du ski",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/13954-souris-ski.json",
+    "author": ""
   },
   {
-    "name": "éléphant\nbleu",
-    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/elephant-bleu.png",
-    "author": "https://pixabay.com/fr/users/creozavr-2567670"
+    "name": "une cigogne\nqui vole",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14483-cigogne-newborn.json",
+    "author": ""
   },
   {
-    "name": "stégosaure",
-    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/stegosaurus.png",
-    "author": "https://pixabay.com/fr/users/Clker-Free-Vector-Images-3736"
+    "name": "un chien\nqui applaudit",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14675-chien-qui-supplie.json",
+    "author": ""
   }
 ]
