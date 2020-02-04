@@ -50,13 +50,18 @@
     "author": ""
   },
   {
-    "name": "le chien\nqui pète",
+    "name": "le chien\namoureux",
     "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14699-farting-dog.json",
     "author": ""
   },
   {
     "name": "un chien qui\ngratte sa tête",
     "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14698-dog-scratch-head.json",
+    "author": ""
+  },
+  {
+    "name": "un chien allongé\nécoute la musique",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14693-music-lying-dog.json",
     "author": ""
   }
 ]

@@ -3,7 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class Constants {
   //App related strings
-  static String appName = "JeLis";
+  static String appName = "Je lis";
 
   final Color kColorBlueMedincell = Color(0xFF4d9cd5);
   final Color kColorLightGray = Color(0xFFececec);
