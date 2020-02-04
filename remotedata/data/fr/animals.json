@@ -65,8 +65,53 @@
     "author": ""
   },
   {
-    "name": "un hérisson",
+    "name": "un hérisson\nmusical",
     "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/8439-hedgehog-listening-music.json",
+    "author": ""
+  },
+  {
+    "name": "un hérisson\nqui dort",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/8440-hedgehog-sleeping.json",
+    "author": ""
+  },
+  {
+    "name": "une araignée",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/13748-spider.json",
+    "author": ""
+  },
+  {
+    "name": "une chien\nqui rigole",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14686-laughing-dog.json",
+    "author": ""
+  },
+  {
+    "name": "une cochon\nqui danse",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14860-pink-dancing-pig.json",
+    "author": ""
+  },
+  {
+    "name": "une cochon\nqui fume",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14868-pig-smoke.json",
+    "author": ""
+  },
+  {
+    "name": "une chenille\nqui mange",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14870-chenille-mange-feuille.json",
+    "author": ""
+  },
+  {
+    "name": "une chien\nqui applaudit",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14685-dog-clap-hand.json",
+    "author": ""
+  },
+  {
+    "name": "une monstre\nqui marche",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/15017-walking-virus-cute-monster.json",
+    "author": ""
+  },
+  {
+    "name": "une mouton qui\fait les courses",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/mouton-caddie.json",
     "author": ""
   }
 ]
