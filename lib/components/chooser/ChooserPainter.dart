@@ -86,7 +86,7 @@ class ChooserPainter extends CustomPainter {
       TextSpan span = TextSpan(
           style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 20.0,
+              fontSize: arcItems[i].text.length > 20 ? 18 : 20.0,
               fontFamily: 'Montserrat',
               fontStyle: FontStyle.normal,
               color: Colors.white),
