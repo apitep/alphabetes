@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:package_info/package_info.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'constants.dart';
-import 'animal.dart';
-import 'quizz_animals.dart';
+import '../models/constants.dart';
+import '../models/animal.dart';
+import '../models/quizz_animals.dart';
 
-class AppState with ChangeNotifier {
-  AppState() {
-    getAppInfo();
+class QuizzProvider with ChangeNotifier {
+  QuizzProvider() {
     fetchData();
   }
-
-  PackageInfo packageInfo;
-  String appVersion;
   int currentBottomTabIndex = 0;
 
   List<Animal> animals = List<Animal>();
+  List<String> currentCandidates = ['', '', '', '', '', '', '', ''];
 
   QuizzAnimals _currentQuestion;
   QuizzAnimals get currentQuestion => _currentQuestion;
@@ -35,23 +31,26 @@ class AppState with ChangeNotifier {
   }
 
   //
-  void chooseQuestion() {
+  QuizzAnimals chooseQuestion() {
+    QuizzAnimals question;
     if (animals != null && animals.length > 7) {
       Animal randomAnimal = (animals..shuffle()).first;
-      //var selectedAnimals = animals.toList().removeAt(0);
-      currentQuestion = QuizzAnimals(randomAnimal, animals);
+      question = QuizzAnimals(randomAnimal, animals);
+      currentCandidates = question.chooserCandidates;
     }
+    return question;
   }
 
   //
   Future<void> fetchData() async {
     isFetching = true;
     animals = await getAnimalsList('fr', 'animals');
+    currentQuestion = chooseQuestion();
     isFetching = false;
   }
 
   Future<List<Animal>> getAnimalsList(String language, String categ) async {
-    String url = kUrlRemoteData + language + '/' + categ + '.json';
+    String url = Constants.kUrlRemoteData + language + '/' + categ + '.json';
     String jsondata;
     dynamic _response;
 
@@ -69,11 +68,5 @@ class AppState with ChangeNotifier {
     }
     final parsed = json.decode(jsondata.toString()).cast<Map<String, dynamic>>();
     return parsed.map<Animal>((json) => Animal.fromJson(json)).toList();
-  }
-
-  Future getAppInfo() async {
-    packageInfo = await PackageInfo.fromPlatform();
-    appVersion = packageInfo.version;
-    notifyListeners();
   }
 }

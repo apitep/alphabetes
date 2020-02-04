@@ -1,29 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'models/app_state.dart';
+import 'providers/app_provider.dart';
+import 'providers/quizz_provider.dart';
+import 'models/constants.dart';
 import 'pages/home.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AppProvider()),
+        ChangeNotifierProvider(create: (_) => QuizzProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => AppState()),
-      ],
-      child: MaterialApp(
-        title: "Alphabêtes",
-        debugShowCheckedModeBanner: false,
-        home: HomePage(
-          title: 'Alphabêtes',
-        ),
-        routes: {
-          HomePage.routeName: (context) => HomePage(title: 'Alphabêtes'),
-        },
-      ),
+    return Consumer<AppProvider>(
+      builder: (BuildContext context, AppProvider appProvider, Widget child) {
+        return MaterialApp(
+          key: appProvider.key,
+          debugShowCheckedModeBanner: false,
+          navigatorKey: appProvider.navigatorKey,
+          title: Constants.appName,
+          theme: appProvider.theme,
+          darkTheme: Constants.darkTheme,
+          home: HomePage(title: Constants.appName),
+        );
+      },
     );
   }
 }

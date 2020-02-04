@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/app_state.dart';
+import '../providers/quizz_provider.dart';
 import '../components/chooser/ArcChooser.dart';
 import '../pages/transition_route_observer.dart';
 
@@ -20,11 +20,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   int slideValue = 0;
   int lastAnimPosition = 0;
-  int answer = 0;
 
-  AppState appState;
-  List<String> candidates = ['', '', '', '', '', '', '', ''];
-  int currentCorrect;
+  QuizzProvider quizzProvider;
 
   Color startColor;
   Color endColor;
@@ -33,8 +30,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-
-    currentCorrect = 0;
 
     startColor = Color(0xFF21e1fa);
     endColor = Color(0xff3bb8fd);
@@ -57,12 +52,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   int _animPosition = 0;
 
   checkAnswer(int pos) {
-    if (appState == null) {
+    if (quizzProvider == null) {
       return;
     }
 
-    if (appState.currentQuestion != null &&
-        appState.currentQuestion.candidates[pos].name == appState.currentQuestion.goodAnswer.name) {
+    if (quizzProvider.currentQuestion != null && quizzProvider.currentQuestion.candidates[pos].name == quizzProvider.currentQuestion.goodAnswer.name) {
       print("good answer");
     } else {
       print("wrong answer");
@@ -70,14 +64,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
     _animPosition = pos;
     animation.animateTo(_animPosition * 100.0);
-
     lastAnimPosition = _animPosition;
-    appState.chooseQuestion();
 
-    candidates = appState.currentQuestion.chooserCandidates;
-    answer = lastAnimPosition;
-    
-    setState(() {});
+    quizzProvider.currentQuestion = quizzProvider.chooseQuestion();
   }
 
   @override
@@ -94,12 +83,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   void didPushAfterTransition() {
-    appState.chooseQuestion();
+    quizzProvider.currentQuestion = quizzProvider.chooseQuestion();
   }
 
   @override
   Widget build(BuildContext context) {
-    appState = Provider.of<AppState>(context);
+    quizzProvider = Provider.of<QuizzProvider>(context);
 
     var size = MediaQuery.of(context).size;
 
@@ -111,23 +100,24 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Container(
-                    child: appState.currentQuestion == null
-                        ? CircularProgressIndicator()
-                        : FadeInImage.assetNetwork(
-                            placeholder: 'assets/images/throbber.gif',
-                            image: appState.currentQuestion.goodAnswer.imageUrl,
-                          )),
-              ),
-            ),
+            SizedBox(height: 10),
+            quizzProvider.currentQuestion == null
+                ? CircularProgressIndicator()
+                : Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Container(
+                          child: FadeInImage.assetNetwork(
+                        placeholder: 'assets/images/throbber.gif',
+                        image: quizzProvider.currentQuestion.goodAnswer.imageUrl,
+                      )),
+                    ),
+                  ),
             Container(
               color: Colors.transparent,
               width: size.width,
               child: ArcChooser(
-                arcNames: candidates,
+                arcNames: quizzProvider.currentCandidates,
                 arcSelectedCallback: checkAnswer,
               ),
             ),

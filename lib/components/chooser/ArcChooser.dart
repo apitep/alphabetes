@@ -111,7 +111,6 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
 
     return GestureDetector(
       onTap: () {
-        print(currentPosition);
         if (widget.arcSelectedCallback == null) {
           return;
         }
