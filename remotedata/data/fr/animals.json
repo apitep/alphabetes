@@ -90,7 +90,7 @@
     "author": ""
   },
   {
-    "name": "une cochon\nqui fume",
+    "name": "un cochon\nqui fume",
     "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14868-pig-smoke.json",
     "author": ""
   },
@@ -110,13 +110,38 @@
     "author": ""
   },
   {
-    "name": "une mouton\nfait les courses",
+    "name": "un mouton\nfait les courses",
     "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/mouton-caddie.json",
     "author": ""
   },
   {
     "name": "une singe\nintelligent",
     "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/6955-intelligent-monkey.json",
+    "author": ""
+  },
+  {
+    "name": "une étoile\n de mer",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/13767-etoile-de-mer.json",
+    "author": ""
+  },
+  {
+    "name": "un pigeon\nqui marche",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/12931-pidgeon-dove-walk.json",
+    "author": ""
+  },
+  {
+    "name": "un dinosaure",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/12331-dino.json",
+    "author": ""
+  },
+  {
+    "name": "un panda",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14660-food-panda-large.json",
+    "author": ""
+  },
+  {
+    "name": "un cochon\nrenverse le café",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14858-pig-spill-coffee.json",
     "author": ""
   }
 ]
