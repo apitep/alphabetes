@@ -45,8 +45,13 @@
     "author": ""
   },
   {
-    "name": "un chien\nqui applaudit",
+    "name": "un chien\nqui supplie",
     "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14675-chien-qui-supplie.json",
+    "author": ""
+  },
+  {
+    "name": "un chien\nqui pète",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14699-farting-dog.json",
     "author": ""
   }
 ]
