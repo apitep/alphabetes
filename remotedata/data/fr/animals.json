@@ -110,8 +110,13 @@
     "author": ""
   },
   {
-    "name": "une mouton qui\fait les courses",
+    "name": "une mouton\nfait les courses",
     "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/mouton-caddie.json",
+    "author": ""
+  },
+  {
+    "name": "une singe\nintelligent",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/6955-intelligent-monkey.json",
     "author": ""
   }
 ]
