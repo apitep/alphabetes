@@ -115,7 +115,7 @@
     "author": ""
   },
   {
-    "name": "une singe\nintelligent",
+    "name": "une tête\nde singe",
     "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/6955-intelligent-monkey.json",
     "author": ""
   },
@@ -140,8 +140,73 @@
     "author": ""
   },
   {
-    "name": "un cochon\nrenverse le café",
+    "name": "un cochon qui\nrenverse le café",
     "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14858-pig-spill-coffee.json",
+    "author": ""
+  },
+  {
+    "name": "une tortue\nqui tremble",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14091-tortue-tremble.json",
+    "author": ""
+  },
+  {
+    "name": "un chat avec\nune écharpe",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14094-chat-echarpe.json",
+    "author": ""
+  },
+  {
+    "name": "un chien\nqui bave",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14701-chien-bave.json",
+    "author": ""
+  },
+  {
+    "name": "un poisson lune",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/poisson-lune.json",
+    "author": ""
+  },
+  {
+    "name": "une baleine",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/baleine.json",
+    "author": ""
+  },
+  {
+    "name": "une chenille",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14869-chenille.json",
+    "author": ""
+  },
+  {
+    "name": "une abeille\nqui a peur",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14841-scared-bee.json",
+    "author": ""
+  },
+  {
+    "name": "un chien\nqui bave",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14701-chien-bave.json",
+    "author": ""
+  },
+  {
+    "name": "un cochon",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14829-animated-pig-0.json",
+    "author": ""
+  },
+  {
+    "name": "une chauve-souris",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/11044-bat.json",
+    "author": ""
+  },
+  {
+    "name": "une méduse",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/5786-jelly-spin.json",
+    "author": ""
+  },
+  {
+    "name": "un hibou\naux yeux jaunes",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/13730-hibou-yeux-jaunes.json",
+    "author": ""
+  },
+  {
+    "name": "un écureuil qui\ntire la langue",
+    "image_url": "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/lottiefiles/animals/14257-ecureuil-tire-langue.json",
     "author": ""
   }
 ]
