@@ -11,7 +11,9 @@ class QuizzProvider with ChangeNotifier {
   QuizzProvider() {
     fetchData();
   }
-  int currentBottomTabIndex = 0;
+
+  int points = 1;
+  int quizzpictCurrentScore = 0;
 
   List<Animal> animals = List<Animal>();
   List<String> currentCandidates = ['', '', '', '', '', '', '', ''];

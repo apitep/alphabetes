@@ -1,9 +1,21 @@
+import 'package:alphabetes/models/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 
 import '../providers/quizz_provider.dart';
 import '../components/chooser/ArcChooser.dart';
 import '../pages/transition_route_observer.dart';
+
+enum DialogAction {
+  success,
+  failure,
+}
+
+const List<Key> Giffykeys = [
+  Key("success"),
+  Key("failure"),
+];
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -55,18 +67,28 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     if (quizzProvider == null) {
       return;
     }
-
-    if (quizzProvider.currentQuestion != null && quizzProvider.currentQuestion.candidates[pos].name == quizzProvider.currentQuestion.goodAnswer.name) {
-      print("good answer");
-    } else {
-      print("wrong answer");
-    }
+    int points = quizzProvider.points;
+    int score = quizzProvider.quizzpictCurrentScore;
 
     _animPosition = pos;
     animation.animateTo(_animPosition * 100.0);
     lastAnimPosition = _animPosition;
 
-    quizzProvider.currentQuestion = quizzProvider.chooseQuestion();
+    if (quizzProvider.currentQuestion != null && quizzProvider.currentQuestion.candidates[pos].name == quizzProvider.currentQuestion.goodAnswer.name) {
+      if (points > 0) {
+        score = score + points;
+      }
+      displaySuccess(points, score);
+    } else {
+      if (points > 0) {
+        score = score - points;
+
+        if (score <= 0) {
+          score = 0;
+        }
+      }
+      displayFailure(score);
+    }
   }
 
   @override
@@ -123,6 +145,94 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<DialogAction> displaySuccess(int points, int score) async {
+    return await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) => AssetGiffyDialog(
+        image: Image.asset('assets/animations/success.gif', fit: BoxFit.cover),
+        key: Key("success"),
+        onlyCancelButton: true,
+        buttonCancelColor: Colors.green,
+        buttonCancelText: Text(
+          'Yes!',
+          style: TextStyle(
+            fontFamily: 'Montserrat-SemiBold',
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        title: points <= 0
+            ? Text('')
+            : Text(
+                "Bravo !",
+                style: TextStyle(
+                  fontFamily: 'Montserrat-SemiBold',
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+        description: points <= 0
+            ? null
+            : Text(
+                "+ $points pt!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Montserrat-SemiBold',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
+              ),
+        entryAnimation: EntryAnimation.DEFAULT,
+        onCancelButtonPressed: () {
+          Navigator.pop(context, DialogAction.success);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomePage(title: Constants.appName)));
+          quizzProvider.quizzpictCurrentScore = score;
+          quizzProvider.currentQuestion = quizzProvider.chooseQuestion();
+        },
+      ),
+    );
+  }
+
+  Future<DialogAction> displayFailure(int score) async {
+    return await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) => AssetGiffyDialog(
+        image: Image.asset('assets/animations/failed.gif', fit: BoxFit.cover),
+        key: Key("failure"),
+        onlyCancelButton: true,
+        buttonCancelText: Text(
+          'OK',
+          style: TextStyle(
+            fontFamily: 'Montserrat-SemiBold',
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        title: Text(
+          'Oops!',
+          style: TextStyle(
+            fontFamily: 'Montserrat-SemiBold',
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        entryAnimation: EntryAnimation.TOP,
+        onCancelButtonPressed: () {
+          Navigator.pop(context, DialogAction.failure);
+          //Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomePage(title: Constants.appName)));
+          quizzProvider.quizzpictCurrentScore = score;
+        },
       ),
     );
   }
