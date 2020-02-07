@@ -1,3 +1,4 @@
+import 'package:alphabetes/models/rewards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -17,6 +18,7 @@ class QuizzProvider with ChangeNotifier {
 
   List<Animal> animals = List<Animal>();
   List<String> currentCandidates = ['', '', '', '', '', '', '', ''];
+  Rewards rewards;
 
   QuizzAnimals _currentQuestion;
   QuizzAnimals get currentQuestion => _currentQuestion;
@@ -48,7 +50,21 @@ class QuizzProvider with ChangeNotifier {
     isFetching = true;
     animals = await getAnimalsList('fr', 'animals');
     currentQuestion = chooseQuestion();
+    rewards = await getRewards();
     isFetching = false;
+  }
+
+  // load awards
+  Future<Rewards> getRewards() async {
+    dynamic _response;
+
+    _response = await http.get(Constants.kUrlRewards);
+    if (_response.statusCode == 200) {
+      var decodedJson = jsonDecode(_response.body);
+      return Rewards.fromJson(decodedJson);
+    } else {
+      return Rewards();
+    }
   }
 
   Future<List<Animal>> getAnimalsList(String language, String categ) async {
