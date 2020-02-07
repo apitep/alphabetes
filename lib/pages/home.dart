@@ -79,7 +79,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       if (points > 0) {
         score = score + points;
       }
-      displaySuccess(points, score);
+      var reward = quizzProvider.getRandomReward();
+      displaySuccess(points, score, reward);
     } else {
       if (points > 0) {
         score = score - points;
@@ -146,12 +147,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  Future<DialogAction> displaySuccess(int points, int score) async {
+  Future<DialogAction> displaySuccess(int points, int score, String urlReward) async {
     return await showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (_) => AssetGiffyDialog(
-        image: Image.asset('assets/animations/success.gif', fit: BoxFit.cover),
+      builder: (_) => NetworkGiffyDialog(
+        image: Image.network(urlReward, fit: BoxFit.cover),
         key: Key("success"),
         onlyCancelButton: true,
         buttonCancelColor: Colors.green,

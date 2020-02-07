@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:math';
 
 import '../models/constants.dart';
 import '../models/animal.dart';
@@ -43,6 +44,17 @@ class QuizzProvider with ChangeNotifier {
       currentCandidates = question.chooserCandidates;
     }
     return question;
+  }
+
+  //
+  String getRandomReward() {
+    String urlReward = '';
+    if (rewards != null && rewards.animUrls.length > 0) {
+      final _random = Random();
+      urlReward = rewards.animUrls[_random.nextInt(rewards.animUrls.length)];
+    }
+
+    return urlReward;
   }
 
   //
