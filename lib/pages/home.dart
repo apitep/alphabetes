@@ -1,9 +1,10 @@
-import 'package:alphabetes/models/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:lottie/lottie.dart';
 
+import '../models/constants.dart';
+import '../models/custom_popup_menu.dart';
 import '../providers/quizz_provider.dart';
 import '../components/chooser/ArcChooser.dart';
 import '../pages/transition_route_observer.dart';
@@ -16,6 +17,11 @@ enum DialogAction {
 const List<Key> Giffykeys = [
   Key("success"),
   Key("failure"),
+];
+
+List<CustomPopupMenu> choices = <CustomPopupMenu>[
+  CustomPopupMenu(title: 'Français', language: 'fr', icon: Icons.home),
+  CustomPopupMenu(title: 'Néerlandais', language: 'nl', icon: Icons.bookmark),
 ];
 
 class HomePage extends StatefulWidget {
@@ -122,10 +128,37 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
     quizzProvider = Provider.of<QuizzProvider>(context);
 
     var size = MediaQuery.of(context).size;
+    CustomPopupMenu _selectedChoice = choices[0];
+
+    void _select(CustomPopupMenu choice) {
+      setState(() {
+        quizzProvider.setLanguage(choice.language);
+        _selectedChoice = choice;
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          PopupMenuButton<CustomPopupMenu>(
+            elevation: 3.2,
+            initialValue: choices[1],
+            onCanceled: () {
+              print('You have not chossed anything');
+            },
+            tooltip: 'Choisir une langue',
+            onSelected: _select,
+            itemBuilder: (BuildContext context) {
+              return choices.map((CustomPopupMenu choice) {
+                return PopupMenuItem<CustomPopupMenu>(
+                  value: choice,
+                  child: Text(choice.title),
+                );
+              }).toList();
+            },
+          )
+        ],
       ),
       body: Center(
         child: Column(
