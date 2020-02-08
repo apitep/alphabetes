@@ -28,7 +28,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin, TransitionRouteAware {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin, TransitionRouteAware {
   final routeObserver = TransitionRouteObserver<PageRoute>();
 
   int slideValue = 0;
@@ -39,10 +39,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   Color startColor;
   Color endColor;
   AnimationController animation;
+  AnimationController lottieController;
 
   @override
   void initState() {
     super.initState();
+
+    lottieController = AnimationController(vsync: this);
 
     startColor = Color(0xFF21e1fa);
     endColor = Color(0xff3bb8fd);
@@ -68,6 +71,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     if (quizzProvider == null) {
       return;
     }
+    lottieController.stop();
+
     int points = quizzProvider.points;
     int score = quizzProvider.quizzpictCurrentScore;
 
@@ -80,7 +85,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         score = score + points;
       }
       var reward = quizzProvider.getRandomReward();
-      displaySuccess(points, score, reward);
+      displaySuccess(points, score, reward, quizzProvider.currentQuestion.goodAnswer.name);
     } else {
       if (points > 0) {
         score = score - points;
@@ -101,8 +106,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   void dispose() {
-    super.dispose();
+    animation.dispose();
+    lottieController.dispose();
     routeObserver.unsubscribe(this);
+    super.dispose();
   }
 
   @override
@@ -130,7 +137,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 : Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Container(child: Lottie.network(quizzProvider.currentQuestion.goodAnswer.imageUrl)),
+                      child: Container(
+                          child: Lottie.network(
+                        quizzProvider.currentQuestion.goodAnswer.imageUrl,
+                        controller: lottieController,
+                        onLoaded: (composition) {
+                          lottieController
+                            ..duration = composition.duration
+                            ..repeat();
+                        },
+                      )),
                     ),
                   ),
             Container(
@@ -147,7 +163,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  Future<DialogAction> displaySuccess(int points, int score, String urlReward) async {
+  Future<DialogAction> displaySuccess(int points, int score, String urlReward, String description) async {
+    description = description.replaceAll('\n', ' ');
+    quizzProvider.read(description);
+
     return await showDialog(
       barrierDismissible: false,
       context: context,
@@ -157,7 +176,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         onlyCancelButton: true,
         buttonCancelColor: Colors.green,
         buttonCancelText: Text(
-          'Yes!',
+          'OK',
           style: TextStyle(
             fontFamily: 'Montserrat-SemiBold',
             fontSize: 16,

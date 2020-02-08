@@ -1,6 +1,7 @@
 import 'package:alphabetes/models/rewards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:math';
@@ -11,8 +12,14 @@ import '../models/quizz_animals.dart';
 
 class QuizzProvider with ChangeNotifier {
   QuizzProvider() {
-    fetchData();
+    setLanguage('fr');
   }
+
+  Map<String, String> languageNames = Constants.languageNames;
+
+  FlutterTts flutterTts;
+  List<String> languages = List<String>();
+  String language;
 
   int points = 1;
   int quizzpictCurrentScore = 0;
@@ -60,7 +67,7 @@ class QuizzProvider with ChangeNotifier {
   //
   Future<void> fetchData() async {
     isFetching = true;
-    animals = await getAnimalsList('fr', 'animals');
+    animals = await getAnimalsList(language, 'animals');
     currentQuestion = chooseQuestion();
     rewards = await getRewards();
     isFetching = false;
@@ -98,5 +105,40 @@ class QuizzProvider with ChangeNotifier {
     }
     final parsed = json.decode(jsondata.toString()).cast<Map<String, dynamic>>();
     return parsed.map<Animal>((json) => Animal.fromJson(json)).toList();
+  }
+
+  void initTts() async {
+    flutterTts = FlutterTts();
+    flutterTts.setLanguage(language);
+    flutterTts.setSpeechRate(1.0);
+    flutterTts.setVolume(1.0);
+    flutterTts.setPitch(1.0);
+    await flutterTts.isLanguageAvailable(language);
+
+    flutterTts = FlutterTts();
+    _getLanguages();
+  }
+
+  Future _getLanguages() async {
+    dynamic sysLanguages = await flutterTts.getLanguages;
+    if (sysLanguages != null) {
+      for (String lang in sysLanguages) {
+        languages.add(lang);
+      }
+      languages.sort();
+    }
+  }
+
+  Future read(String text) async {
+    await flutterTts.stop();
+    if (text != null && text.isNotEmpty) {
+      await flutterTts.speak(text.toLowerCase());
+    }
+  }
+
+  void setLanguage(String lang) {
+    language = Constants.languages[lang];
+    initTts();
+    fetchData();
   }
 }
