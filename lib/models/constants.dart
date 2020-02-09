@@ -32,7 +32,7 @@ class Constants {
     primaryColor: lightPrimary,
     accentColor: lightAccent,
     cursorColor: lightAccent,
-    scaffoldBackgroundColor: lightBG,
+    scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
       elevation: 1,
       textTheme: TextTheme(

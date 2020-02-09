@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:math';
@@ -46,12 +50,20 @@ class QuizzProvider with ChangeNotifier {
   //
   QuizzAnimals chooseQuestion() {
     QuizzAnimals question;
+
     if (animals != null && animals.length > 7) {
       Animal randomAnimal = (animals..shuffle()).first;
       question = QuizzAnimals(randomAnimal, animals);
       currentCandidates = question.chooserCandidates;
     }
+
+    readQuestion(question);
     return question;
+  }
+
+  void readQuestion(QuizzAnimals question) {
+    String speech = question.goodAnswer.name.replaceAll('\n', ' ');
+    read(speech);
   }
 
   //
@@ -106,6 +118,19 @@ class QuizzProvider with ChangeNotifier {
     }
     final parsed = json.decode(jsondata.toString()).cast<Map<String, dynamic>>();
     return parsed.map<Animal>((json) => Animal.fromJson(json)).toList();
+  }
+
+  Future<LottieComposition> loadComposition(String url) async {
+    dynamic _response;
+    ByteData bd;
+
+    _response = await http.get(url);
+    if (_response.statusCode == 200) {
+      List<int> bytes = utf8.encode(_response.body);
+      Uint8List input = Uint8List.fromList(bytes);
+      bd = input.buffer.asByteData();
+    }
+    return await LottieComposition.fromByteData(bd);
   }
 
   void initTts() async {

@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
   Color endColor;
   AnimationController animation;
   AnimationController lottieController;
+  Future<LottieComposition> composition;
 
   static AudioPlayer audio = AudioPlayer();
 
@@ -92,10 +93,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
 
     if (quizzProvider.currentQuestion != null && quizzProvider.currentQuestion.candidates[pos].name == quizzProvider.currentQuestion.goodAnswer.name) {
       audio.play(Constants.kUrlApplause);
-      audio.onPlayerCompletion.listen((event) {
-        String speech = quizzProvider.currentQuestion.goodAnswer.name.replaceAll('\n', ' ');
-        quizzProvider.read(speech);
-      });
+      audio.onPlayerCompletion.listen((event) {});
 
       if (points > 0) {
         score = score + points;
@@ -133,9 +131,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
   }
 
   @override
-  void didPushAfterTransition() {
-    //quizzProvider.currentQuestion = quizzProvider.chooseQuestion();
-  }
+  void didPushAfterTransition() {}
 
   @override
   Widget build(BuildContext context) {
@@ -179,23 +175,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             SizedBox(height: 10),
-            quizzProvider.currentQuestion == null
-                ? CircularProgressIndicator()
-                : Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Container(
-                          child: Lottie.network(
-                        quizzProvider.currentQuestion.goodAnswer.imageUrl,
-                        controller: lottieController,
-                        onLoaded: (composition) {
-                          lottieController
-                            ..duration = composition.duration
-                            ..repeat();
-                        },
-                      )),
-                    ),
-                  ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  quizzProvider.readQuestion(quizzProvider.currentQuestion);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: quizzProvider.currentQuestion == null
+                      ? Container()
+                      : FutureBuilder<LottieComposition>(
+                          future: quizzProvider.loadComposition(quizzProvider.currentQuestion.goodAnswer.imageUrl),
+                          builder: (context, snapshot) {
+                            var composition = snapshot.data;
+                            if (composition != null) {
+                              var lottie = Lottie(composition: composition, controller: lottieController);
+                              lottieController
+                                ..duration = composition.duration
+                                ..repeat();
+                              return lottie;
+                            } else {
+                              return Center(child: CircularProgressIndicator());
+                            }
+                          },
+                        ),
+                ),
+              ),
+            ),
             Container(
               color: Colors.transparent,
               width: size.width,
@@ -307,5 +313,4 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
       ),
     );
   }
-
 }
