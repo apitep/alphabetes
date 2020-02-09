@@ -1,12 +1,13 @@
-import 'package:alphabetes/models/rewards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:async';
 import 'dart:math';
 
 import '../models/constants.dart';
+import '../models/rewards.dart';
 import '../models/animal.dart';
 import '../models/quizz_animals.dart';
 

@@ -13,6 +13,7 @@ class Constants {
   static const String kUrlRemoteData = "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/data/";
   static const String kUrlImages = "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/images/";
   static const String kUrlRewards = "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/data/rewards.json";
+  static const String kUrlApplause = "https://raw.githubusercontent.com/apitep/alphabetes/master/remotedata/sounds/applause.mp3";
   static const String kDefaultUrlReward = "https://raw.githubusercontent.com/EricNahon/pikatchuTesOu/master/remotedata/images/Bulbasaur.gif";
 
   final Widget kApitepLogo = Image.asset('assets/images/ApitepBearLogo.png', height: 100);

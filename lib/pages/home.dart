@@ -1,7 +1,7 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
-import 'package:audioplayers/audio_cache.dart';
 import 'package:lottie/lottie.dart';
 
 import '../models/constants.dart';
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
   AnimationController animation;
   AnimationController lottieController;
 
-  static AudioCache player = AudioCache();
+  static AudioPlayer audio = AudioPlayer();
 
   @override
   void initState() {
@@ -91,7 +91,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
     lastAnimPosition = _animPosition;
 
     if (quizzProvider.currentQuestion != null && quizzProvider.currentQuestion.candidates[pos].name == quizzProvider.currentQuestion.goodAnswer.name) {
-      player.play('sounds/applause.mp3');
+      audio.play(Constants.kUrlApplause);
+      audio.onPlayerCompletion.listen((event) {
+        String speech = quizzProvider.currentQuestion.goodAnswer.name.replaceAll('\n', ' ');
+        quizzProvider.read(speech);
+      });
+
       if (points > 0) {
         score = score + points;
       }
@@ -99,6 +104,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
       var reward = quizzProvider.getRandomReward();
       displaySuccess(points, score, reward);
     } else {
+      String speech = quizzProvider.currentQuestion.candidates[pos].name.replaceAll('\n', ' ');
+      quizzProvider.read(speech);
+
       if (points > 0) {
         score = score - points;
 
@@ -255,9 +263,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
   }
 
   Future<DialogAction> displayFailure(int score, String description) async {
-    String speech = description.replaceAll('\n', ' ');
-    quizzProvider.read(speech);
-
     return await showDialog(
       barrierDismissible: false,
       context: context,
@@ -283,16 +288,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
             color: Colors.black,
           ),
         ),
-                description: Text(
-                description,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Montserrat-SemiBold',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
+        description: Text(
+          description,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: 'Montserrat-SemiBold',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.green,
+          ),
+        ),
         entryAnimation: EntryAnimation.TOP,
         onCancelButtonPressed: () {
           Navigator.pop(context, DialogAction.failure);
@@ -302,4 +307,5 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
       ),
     );
   }
+
 }
