@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
+import 'package:audioplayers/audio_cache.dart';
 import 'package:lottie/lottie.dart';
 
 import '../models/constants.dart';
@@ -47,6 +48,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
   AnimationController animation;
   AnimationController lottieController;
 
+  static AudioCache player = AudioCache();
+
   @override
   void initState() {
     super.initState();
@@ -88,12 +91,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
     lastAnimPosition = _animPosition;
 
     if (quizzProvider.currentQuestion != null && quizzProvider.currentQuestion.candidates[pos].name == quizzProvider.currentQuestion.goodAnswer.name) {
+      player.play('sounds/applause.mp3');
       if (points > 0) {
         score = score + points;
       }
       lottieController.stop();
       var reward = quizzProvider.getRandomReward();
-      displaySuccess(points, score, reward, quizzProvider.currentQuestion.goodAnswer.name);
+      displaySuccess(points, score, reward);
     } else {
       if (points > 0) {
         score = score - points;
@@ -102,7 +106,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
           score = 0;
         }
       }
-      displayFailure(score);
+      displayFailure(score, quizzProvider.currentQuestion.candidates[pos].name);
     }
   }
 
@@ -198,10 +202,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
     );
   }
 
-  Future<DialogAction> displaySuccess(int points, int score, String urlReward, String description) async {
-    description = description.replaceAll('\n', ' ');
-    quizzProvider.read(description);
-
+  Future<DialogAction> displaySuccess(int points, int score, String urlReward) async {
     return await showDialog(
       barrierDismissible: false,
       context: context,
@@ -253,7 +254,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
     );
   }
 
-  Future<DialogAction> displayFailure(int score) async {
+  Future<DialogAction> displayFailure(int score, String description) async {
+    String speech = description.replaceAll('\n', ' ');
+    quizzProvider.read(speech);
+
     return await showDialog(
       barrierDismissible: false,
       context: context,
@@ -279,6 +283,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
             color: Colors.black,
           ),
         ),
+                description: Text(
+                description,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Montserrat-SemiBold',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
+              ),
         entryAnimation: EntryAnimation.TOP,
         onCancelButtonPressed: () {
           Navigator.pop(context, DialogAction.failure);
