@@ -110,10 +110,10 @@ class QuizzProvider with ChangeNotifier {
   void initTts() async {
     flutterTts = FlutterTts();
     flutterTts.setLanguage(language);
-    flutterTts.setSpeechRate(1.0);
-    flutterTts.setVolume(1.0);
-    flutterTts.setPitch(1.0);
     await flutterTts.isLanguageAvailable(language);
+    flutterTts.setSpeechRate(.4);
+    flutterTts.setVolume(1.0);
+    flutterTts.setPitch(.8);
 
     flutterTts = FlutterTts();
     _getLanguages();

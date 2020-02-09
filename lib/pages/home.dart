@@ -63,9 +63,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
       duration: const Duration(milliseconds: 800),
       vsync: this,
     )..addListener(() {
-        setState(() {
-          slideValue = animation.value.toInt();
-        });
+        setState(
+          () {
+            slideValue = animation.value.toInt();
+          },
+        );
       });
 
     animation.animateTo(slideValue.toDouble());
@@ -77,7 +79,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
     if (quizzProvider == null) {
       return;
     }
-    lottieController.stop();
 
     int points = quizzProvider.points;
     int score = quizzProvider.quizzpictCurrentScore;
@@ -90,6 +91,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
       if (points > 0) {
         score = score + points;
       }
+      lottieController.stop();
       var reward = quizzProvider.getRandomReward();
       displaySuccess(points, score, reward, quizzProvider.currentQuestion.goodAnswer.name);
     } else {
