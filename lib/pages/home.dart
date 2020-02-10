@@ -140,14 +140,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
     quizzProvider = Provider.of<QuizzProvider>(context);
 
     var size = MediaQuery.of(context).size;
-    CustomPopupMenu _selectedChoice = choices[0];
-
-    void _select(CustomPopupMenu choice) {
-      setState(() {
-        quizzProvider.setLanguage(choice.language);
-        _selectedChoice = choice;
-      });
-    }
+    var flagimage = quizzProvider.language + '.jpg';
 
     return Scaffold(
       appBar: AppBar(
@@ -159,22 +152,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
               _showModalSheet();
             },
           ),
-          PopupMenuButton<CustomPopupMenu>(
-            elevation: 3.2,
-            initialValue: choices[1],
-            onCanceled: () {
-              print('You have not chossed anything');
-            },
-            tooltip: 'Choisir une langue',
-            onSelected: _select,
-            itemBuilder: (BuildContext context) {
-              return choices.map((CustomPopupMenu choice) {
-                return PopupMenuItem<CustomPopupMenu>(
-                  value: choice,
-                  child: Text(choice.title),
-                );
-              }).toList();
-            },
+          IconButton(
+            icon: Image.asset('assets/images/$flagimage'),
+            iconSize: 50,
+            onPressed: () {},
           )
         ],
       ),

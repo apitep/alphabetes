@@ -35,10 +35,10 @@ class _LanguageChooserState extends State<LanguageChooser> {
         child: PageView(
           controller: viewController,
           children: [
-            CountryCard(code: 'fr'),
-            CountryCard(code: 'nl'),
-            CountryCard(code: 'es'),
-            CountryCard(code: 'gb'),
+            CountryCard(code: 'fr-FR'),
+            CountryCard(code: 'nl-NL'),
+            CountryCard(code: 'es-ES'),
+            CountryCard(code: 'gb-GB'),
           ],
         ),
       ),
