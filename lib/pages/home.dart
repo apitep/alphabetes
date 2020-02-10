@@ -1,3 +1,4 @@
+import 'package:alphabetes/components/language_chooser.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -91,7 +92,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
     animation.animateTo(_animPosition * 100.0);
     lastAnimPosition = _animPosition;
 
-    if (quizzProvider.currentQuestion != null && quizzProvider.currentQuestion.candidates[pos].name == quizzProvider.currentQuestion.goodAnswer.name) {
+    if (quizzProvider.currentQuestion != null &&
+        quizzProvider.currentQuestion.candidates[pos].name == quizzProvider.currentQuestion.goodAnswer.name) {
       audio.play(Constants.kUrlApplause);
       audio.onPlayerCompletion.listen((event) {});
 
@@ -151,6 +153,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.flare),
+            onPressed: () {
+              _showModalSheet();
+            },
+          ),
           PopupMenuButton<CustomPopupMenu>(
             elevation: 3.2,
             initialValue: choices[1],
@@ -260,7 +268,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
         entryAnimation: EntryAnimation.DEFAULT,
         onCancelButtonPressed: () {
           Navigator.pop(context, DialogAction.success);
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomePage(title: Constants.appName)));
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (BuildContext context) => HomePage(title: Constants.appName)));
           quizzProvider.quizzpictCurrentScore = score;
           quizzProvider.currentQuestion = quizzProvider.chooseQuestion();
         },
@@ -312,5 +321,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
         },
       ),
     );
+  }
+
+  void _showModalSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (builder) {
+          return LanguageChooser();
+        });
   }
 }

@@ -96,6 +96,7 @@ class Constants {
     'fr': 'fr-FR',
     'gb': 'en-GB',
     'nl': 'nl-NL',
+    'es': 'es-ES',
   };
 
   static Map<String, String> languageNames = {
