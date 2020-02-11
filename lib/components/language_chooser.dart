@@ -5,8 +5,6 @@ import 'package:provider/provider.dart';
 import '../components/country_card.dart';
 import '../providers/quizz_provider.dart';
 
-final PageController viewController = PageController(viewportFraction: 0.8, initialPage: 0);
-
 class LanguageChooser extends StatefulWidget {
   LanguageChooser({Key key}) : super(key: key);
 
@@ -23,13 +21,15 @@ class _LanguageChooserState extends State<LanguageChooser> {
 
     var size = MediaQuery.of(context).size;
     return Container(
-      height: size.height * .5,
-      child: Center(
+      height: size.height * .3,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 20.0),
         child: PageView(
-          controller: viewController,
-          children: 
-            _buildCountryCards()
-          ,
+          controller: PageController(
+            initialPage: 1,
+            viewportFraction: 0.7,
+          ),
+          children: _buildCountryCards(),
         ),
       ),
     );
