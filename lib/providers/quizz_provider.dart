@@ -17,7 +17,7 @@ import '../models/quizz_animals.dart';
 
 class QuizzProvider with ChangeNotifier {
   QuizzProvider() {
-    setLanguage('fr');
+    setLanguage('fr-FR');
   }
 
   Map<String, String> languageNames = Constants.languageNames;

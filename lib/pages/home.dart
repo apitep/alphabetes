@@ -147,15 +147,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.flare),
+            icon: Image.asset('assets/images/$flagimage'),
+            iconSize: 50,
             onPressed: () {
               _showModalSheet();
             },
-          ),
-          IconButton(
-            icon: Image.asset('assets/images/$flagimage'),
-            iconSize: 50,
-            onPressed: () {},
           )
         ],
       ),

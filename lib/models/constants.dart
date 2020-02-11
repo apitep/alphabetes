@@ -93,10 +93,10 @@ class Constants {
   ];
 
   static Map<String, String> languages = {
-    'fr': 'fr-FR',
-    'gb': 'en-GB',
-    'nl': 'nl-NL',
-    'es': 'es-ES',
+    'fr-FR': 'fr-FR',
+    'gb-GB': 'gb-GB',
+    'nl-NL': 'nl-NL',
+    'es-ES': 'es-ES',
   };
 
   static Map<String, String> languageNames = {
