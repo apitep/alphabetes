@@ -293,7 +293,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
         entryAnimation: EntryAnimation.TOP,
         onCancelButtonPressed: () {
           Navigator.pop(context, DialogAction.failure);
-          //Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomePage(title: Constants.appName)));
           quizzProvider.quizzpictCurrentScore = score;
         },
       ),

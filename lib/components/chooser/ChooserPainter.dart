@@ -5,19 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'ArcChooser.dart';
 
-// draw the arc and other stuff
 class ChooserPainter extends CustomPainter {
-  //debugging Paint
-  final debugPaint = Paint()
-    ..color = Colors.red.withAlpha(100) //0xFFF9D976
-    ..strokeWidth = 1.0
-    ..style = PaintingStyle.stroke;
-
-  final linePaint = Paint()
-    ..color = Colors.black.withAlpha(65) //0xFFF9D976
-    ..strokeWidth = 2.0
-    ..style = PaintingStyle.stroke
-    ..strokeCap = StrokeCap.square;
 
   final whitePaint = Paint()
     ..color = Colors.indigoAccent
@@ -48,16 +36,15 @@ class ChooserPainter extends CustomPainter {
     double centerX = size.width / 2;
     double centerY = size.height * 1.6;
     Offset center = Offset(centerX, centerY);
-    //double radius = sqrt((size.width * size.width) / 2);
     double radius = sqrt((size.width * (size.width / 2)) / 2);
 
-    //for white arc at bottom
+    //bottom white arc
     double leftX = centerX - radius;
     double topY = centerY - radius;
     double rightX = centerX + radius;
     double bottomY = centerY + radius;
 
-    //for items
+    //items
     double radiusItems = radius * 1.5;
     double leftX2 = centerX - radiusItems;
     double topY2 = centerY - radiusItems;
@@ -91,15 +78,15 @@ class ChooserPainter extends CustomPainter {
               fontStyle: FontStyle.normal,
               color: Colors.white),
           text: arcItems[i].text);
-      TextPainter tp = TextPainter(
+      TextPainter txtPainter = TextPainter(
         text: span,
         textAlign: TextAlign.center,
         textDirection: TextDirection.ltr,
       );
-      tp.layout();
+      txtPainter.layout();
 
       //center text
-      double f = tp.width / 2;
+      double xText = txtPainter.width / 2;
 
       if (arcItems[i].text.contains('\n')) {
         radiusText = radius * 1.40;
@@ -107,9 +94,9 @@ class ChooserPainter extends CustomPainter {
         radiusText = radius * 1.35;
       }
 
-      double t = sqrt((radiusText * radiusText) + (f * f));
+      double t = sqrt((radiusText * radiusText) + (xText * xText));
 
-      double additionalAngle = acos(((t * t) + (radiusText * radiusText) - (f * f)) / (2 * t * radiusText));
+      double additionalAngle = acos(((t * t) + (radiusText * radiusText) - (xText * xText)) / (2 * t * radiusText));
 
       double tX = center.dx + radiusText * cos(arcItems[i].startAngle + angleInRadiansByTwo - additionalAngle);
       double tY = center.dy + radiusText * sin(arcItems[i].startAngle + angleInRadiansByTwo - additionalAngle);
@@ -117,7 +104,7 @@ class ChooserPainter extends CustomPainter {
       canvas.save();
       canvas.translate(tX, tY);
       canvas.rotate(arcItems[i].startAngle + angleInRadians + angleInRadians + angleInRadiansByTwo);
-      tp.paint(canvas, Offset(0.0, 0.0));
+      txtPainter.paint(canvas, Offset(0.0, 0.0));
       canvas.restore();
     }
 

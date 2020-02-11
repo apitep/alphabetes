@@ -153,10 +153,6 @@ class ChooserState extends State<ArcChooser> with SingleTickerProviderStateMixin
           }
         }
 
-        // if (arcSelectedCallback != null) {
-        //   arcSelectedCallback(currentPosition);
-        // }
-
         animation.forward(from: 0.0);
       },
       child: CustomPaint(

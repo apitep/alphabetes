@@ -20,8 +20,6 @@ class QuizzProvider with ChangeNotifier {
     setLanguage('fr-FR');
   }
 
-  Map<String, String> languageNames = Constants.languageNames;
-
   FlutterTts flutterTts;
   List<String> languages = List<String>();
   String language;
