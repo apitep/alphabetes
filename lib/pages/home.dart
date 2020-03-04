@@ -1,4 +1,5 @@
-import 'package:alphabetes/components/language_chooser.dart';
+import 'package:alphabetes/components/custom_dialog.dart';
+import 'package:transparent_image/transparent_image.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,7 @@ import 'package:lottie/lottie.dart';
 import '../models/constants.dart';
 import '../models/custom_popup_menu.dart';
 import '../providers/quizz_provider.dart';
+import '../components/language_chooser.dart';
 import '../components/chooser/ArcChooser.dart';
 import '../pages/transition_route_observer.dart';
 
@@ -80,7 +82,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
 
   int _animPosition = 0;
 
-  checkAnswer(int pos) {
+  checkAnswer(int pos) async {
     if (quizzProvider == null) {
       return;
     }
@@ -92,8 +94,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
     animation.animateTo(_animPosition * 100.0);
     lastAnimPosition = _animPosition;
 
-    if (quizzProvider.currentQuestion != null &&
-        quizzProvider.currentQuestion.candidates[pos].name == quizzProvider.currentQuestion.goodAnswer.name) {
+    if (quizzProvider.currentQuestion != null && quizzProvider.currentQuestion.candidates[pos].name == quizzProvider.currentQuestion.goodAnswer.name) {
       audio.play(Constants.kUrlApplause);
       audio.onPlayerCompletion.listen((event) {});
 
@@ -102,7 +103,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
       }
       lottieController.stop();
       var reward = quizzProvider.getRandomReward();
-      displaySuccess(points, score, reward);
+      await displaySuccess2(points, score, reward);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomePage(title: Constants.appName)));
+      quizzProvider.quizzpictCurrentScore = score;
+      quizzProvider.currentQuestion = quizzProvider.chooseQuestion();
     } else {
       String speech = quizzProvider.currentQuestion.candidates[pos].name.replaceAll('\n', ' ');
       quizzProvider.read(speech);
@@ -144,7 +148,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
             icon: Image.asset('assets/images/$flagimage'),
@@ -156,47 +161,63 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            SizedBox(height: 10),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  quizzProvider.readQuestion(quizzProvider.currentQuestion);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: quizzProvider.currentQuestion == null
-                      ? Container()
-                      : FutureBuilder<LottieComposition>(
-                          future: quizzProvider.loadComposition(quizzProvider.currentQuestion.goodAnswer.imageUrl),
-                          builder: (context, snapshot) {
-                            var composition = snapshot.data;
-                            if (composition != null) {
-                              var lottie = Lottie(composition: composition, controller: lottieController);
-                              lottieController
-                                ..duration = composition.duration
-                                ..repeat();
-                              return lottie;
-                            } else {
-                              return Center(child: CircularProgressIndicator());
-                            }
-                          },
-                        ),
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              SizedBox(height: 10),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    quizzProvider.readQuestion(quizzProvider.currentQuestion);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: quizzProvider.currentQuestion == null
+                        ? Container()
+                        : FutureBuilder<LottieComposition>(
+                            future: quizzProvider.loadComposition(quizzProvider.currentQuestion.goodAnswer.imageUrl),
+                            builder: (context, snapshot) {
+                              var composition = snapshot.data;
+                              if (composition != null) {
+                                var lottie = Lottie(composition: composition, controller: lottieController);
+                                lottieController
+                                  ..duration = composition.duration
+                                  ..repeat();
+                                return lottie;
+                              } else {
+                                return Center(child: CircularProgressIndicator());
+                              }
+                            },
+                          ),
+                  ),
                 ),
               ),
-            ),
-            Container(
-              color: Colors.transparent,
-              width: size.width,
-              child: ArcChooser(
-                arcNames: quizzProvider.currentCandidates,
-                arcSelectedCallback: checkAnswer,
+              Container(
+                color: Colors.white,
+                width: size.width,
+                child: ArcChooser(
+                  arcNames: quizzProvider.currentCandidates,
+                  arcSelectedCallback: checkAnswer,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Future<DialogAction> displaySuccess2(int points, int score, String urlReward) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => CustomDialog(
+        title: "Bravo!",
+        urlReward: urlReward,
+        buttonText: "OK",
       ),
     );
   }
@@ -245,8 +266,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin, Tran
         entryAnimation: EntryAnimation.DEFAULT,
         onCancelButtonPressed: () {
           Navigator.pop(context, DialogAction.success);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (BuildContext context) => HomePage(title: Constants.appName)));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomePage(title: Constants.appName)));
           quizzProvider.quizzpictCurrentScore = score;
           quizzProvider.currentQuestion = quizzProvider.chooseQuestion();
         },
